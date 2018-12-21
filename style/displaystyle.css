@@ -1,0 +1,42 @@
+
+
+#screen {
+	width: calc(55% - 6px);
+	height: calc(100% - 6px);
+	border: 3px solid black;
+
+}
+
+.txtlines {
+	height: calc(8% - 10px);
+	border-bottom: 1px solid black;
+	width: calc(100% - 10px - 6px);
+	background-image: linear-gradient(#eeeeee, #cccccc);
+	padding: 10px;
+	position: relative;
+	z-index: -1;
+
+}
+
+
+.mathtxt {
+	font-size: 24px;
+	text-align: right;
+
+}
+
+#graph-canvas {
+	height: calc(76% - 33px);
+	width: calc(100%);
+	background-color: #dddddd;
+
+
+}
+
+#answertxt {
+	display: show;
+	font-size: 54px;
+	float: right;
+	padding: 20px;
+
+}

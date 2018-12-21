@@ -1,5 +1,30 @@
 * {
 	font-family: 'Lucida Console', Monaco, monospace;
+	margin: 0px;
 
 
 }
+
+html {
+	height: 100%;
+	width: 100%;
+	min-width: 660px;
+	min-height: 600px;
+
+}
+
+body {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+
+}
+
+#main {
+	height: 90%;
+	width: 100%;
+	display: flex;
+
+}
+
+
