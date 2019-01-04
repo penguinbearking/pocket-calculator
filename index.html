@@ -1,139 +1,65 @@
-<!DOCTYPE html>
-<html>
+<!Doctype HTML>
 
+<html onresize='checkResize();'>
 	<head>
-		<title>Calculator</title>
+		<title>Pocket Calculator</title>
 		<meta charset='utf-8'>
-		<link rel='stylesheet' type='text/css' href='./style/mainstyle.css'/>
-		<link rel='stylesheet' type='text/css' href='./style/calctablestyle.css'/>
-		<link rel='stylesheet' type='text/css' href='./style/displaystyle.css'/>
-		<link rel='stylesheet' type='text/css' href='./style/headerstyle.css'/>
-		<script type='text/javascript' src='./script/mainscript.js'></script>
-		<script type='text/javascript' src='./script/ops.js'></script>
-		<script type='text/javascript' src='./script/regtograph.js'></script>
+		<link rel='stylesheet' type = 'text/css' href='./cpstyles/cpstyle.css'/>
+		<script type= 'text/javascript' src='./cpscripts/cpscript.js'></script>
 	</head>
 
-	<body onload='startup()'>
-
+	<body>
 		<div id='header'>
-			<h1 id='header-text'>Online Graphing Calculator</h1>
+			<h1 id='header-text'>Online Calculator</h1>
 		</div>
 
-		<div id='main'>
 
-			<div id='calctable1'>
-				<table class='functable'>
-					<tbody>
-						<tr>
-							<td><button onclick='compops("hex");' id='Radians'>Hex</button></td>
-							<td><button onclick='compops("degrad");' id='button2'>Rad</button></td>
-							<td><button onclick='switchbuttons();' id='button3'>2<sup>nd</sup></button></td>
-							<td><button onclick='compops("round");' id='button4'>Round</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='compops("dec");' id='button1'>Dec</button></td>
-							<td><button onclick='compops("log");' id='button2'>log</button></td>
-							<td><button onclick='compops("loga");' id='button3'>log<sub>a</sub></button></td>
-							<td><button onclick='compops("ln");' id='button4'>ln</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='compops("oct");' id='button1'>Oct</button></td>
-							<td><button onclick='getnums("e");' id='button2'>e</button></td>
-							<td><button onclick='getnums("pi");' id='button3'>π</button></td>
-							<td><button onclick='getnums("gr");' id='button4'>φ</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='compops("bin");' id='button1'>Bin</button></td>
-							<td><button onclick='compops("x2");' id='button2'>x<sup>2</sup></button></td>
-							<td><button onclick='compops("xa");' id='button3'>x<sup>a</sup></button></td>
-							<td><button onclick='compops("asqrtx");' id='button4'><sup>a</sup>&radic;x</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='compops("sin");' id='button1'>sin</button></td>
-							<td><button onclick='compops("arcsin");' id='button2'>arcsin</button></td>
-							<td><button onclick='compops("per");' id='button3'>%</button></td>
-							<td><button onclick='compops("xfact");' id='button4'>x!</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='compops("cos");' id='button1'>cos</button></td>
-							<td><button onclick='compops("arccos");' id='button2'>arccos</button></td>
-							<td><button onclick='compops("abs");' id='button3'>abs</button></td>
-							<td><button onclick='compops("mod");' id='button4'>mod</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='compops("tan");' id='button1'>tan</button></td>
-							<td><button onclick='compops("arctan");' id='button2'>arctan</button></td>
-							<td><button onclick='compops("der");' id='button3'>d/dx</button></td>
-							<td><button onclick='compops("int");' id='button4'>&int;</button></td>
-						</tr>
-					</tbody>
-				</table>
+		<div id='calcmain'>
+			<div id='viewbar'>
+				<p id='mathtxt'>0</p>
+			</div>
+			<div id='calctable'>
+				<table>
+					
+					<tr>
+						<td><button class='buttont0' onclick='nums("7");'>7</button></td>
+						<td><button class='buttont0' onclick='nums("8");'>8</button></td>
+						<td><button class='buttont0' onclick='nums("9");'>9</button></td>
+						<td><button class='buttont1' onclick='ops("div");'>&divide;</button></td>
+					</tr>
+					<tr>
+						<td><button class='buttont0' onclick='nums("4");'>4</button></td>
+						<td><button class='buttont0' onclick='nums("5");'>5</button></td>
+						<td><button class='buttont0' onclick='nums("6");'>6</button></td>
+						<td><button class='buttont1' onclick='ops("mul")';>&times;</button></td>
+					</tr>
+					<tr>
+						<td><button class='buttont0' onclick='nums("1");'>1</button></td>
+						<td><button class='buttont0' onclick='nums("2");'>2</button></td>
+						<td><button class='buttont0' onclick='nums("3");'>3</button></td>
+						<td><button class='buttont1' onclick='ops("sub")';>-</button></td>
+					</tr>
 
-				<table class='numtable'>
-					<tbody>
-						<tr>
-							<td><button onclick='getnums("7");' id='buttona0'>7</button></td>
-							<td><button onclick='getnums("8");' id='buttona1'>8</button></td>
-							<td><button onclick='getnums("9");' id='buttona2'>9</button></td>
-							<td><button onclick='simpop("div");' id='buttona3'>&divide;</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='getnums("4");' id='buttonb0'>4</button></td>
-							<td><button onclick='getnums("5");' id='buttonb1'>5</button></td>
-							<td><button onclick='getnums("6");' id='buttonb2'>6</button></td>
-							<td><button onclick='simpop("mul");' id='buttonb3'>&times;</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='getnums("1");' id='buttonc0'>1</button></td>
-							<td><button onclick='getnums("2");' id='buttonc1'>2</button></td>
-							<td><button onclick='getnums("3");' id='buttonc2'>3</button></td>
-							<td><button onclick='simpop("plus");' id='buttonc3'>+</button></td>
-						</tr>
-						<tr>
-							<td><button onclick='getnums(".");' id='buttond0'>.</button></td>
-							<td><button onclick='getnums("0");' id='buttond1'>0</button></td>
-							<td><button onclick='simpop("plusmin");' id='buttond2'>&#x2213;</button></td>
-							<td><button onclick='simpop("min");' id='buttond3'>&minus;</button></td>
-						</tr>
-						<tr>
-							<td colspan='1'><button onclick='getnums("opar");' id='buttond0'>(</button></td>
-							<td colspan='1'><button onclick='getnums("cpar");' id='buttond0'>)</button></td>
-							<td colspan='2'><button onclick='clear("clr");' id='buttond0'>Clear</button></td>
-						</tr>
-					</tbody>
-				</table>
+					<tr>
+						<td colspan='2'><button class='buttont0' onclick='nums("0");'>0</button></td>
+						<td><button class='buttont0' onclick='nums("dec");'>.</button></td>
+						<td><button class='buttont1' onclick='ops("add")';>+</button></td>
+					</tr>
+					<tr>
+						<td colspan='2'><button class='buttont2' onclick='evaluate("enter");'>=</button></td>
+						<td><button class='buttont2'onclick='nums("ans");'>Ans</button></td>
+						<td><button class='buttont1' onclick='ops("neg")';>+/-</button></td>
+					</tr>
+					<tr>
+						<td colspan='2'><button class='buttont2' id='link-to-full'><a href='./GraphingCalculator/graphcalculator.html'>Full Calculator</a></button></td>
+						<td colspan='1'><button class='buttont2' onclick='evaluate("clear")';>Clear</button></td>
+						<td><button class='buttont1' onclick='ops("per")';>%</button></td>
+					</tr>
 
-				<table class='entertable'>
-					<tbody>
-						<tr>
-							<td colspan='4'><button onclick='switchtype();' id='buttonf0'>Regular</button></td>
-						</tr>
-						<tr>
-							<td colspan='4'><button onclick='clear("del");' id='buttonf1'>Delete</button></td>
-						</tr>
-						<tr>
-							<td colspan='4'><button onclick='solve();' id='buttonf2'>Enter</button></td>
-						</tr>
-					</tbody>
 				</table>
 			</div>
-
-			<div id='screen'>
-				<div class='txtlines'>
-					<p class='mathtxt'>9876543210</p>
-				</div>
-				<div class='txtlines'>
-					<p class='mathtxt'>0123456789</p>
-				</div>
-				<div class='txtlines'>
-					<p class='mathtxt'>1357924680</p>
-				</div>
-				<div id='graph-canvas'>
-					<p id='answertxt'>500</p>
-				</div>
-			</div>
-
 		</div>
+
+
 	</body>
-
 </html>
