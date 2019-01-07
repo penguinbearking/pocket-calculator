@@ -1,14 +1,27 @@
 //TEXT BOX ON CALC CAN ONLY HOLD 10 CHARACTERS WHEN TEXT IS 50PX and BOX IS 300PX WIDE//
 
+var needNewline = false;
 var numstring = '';
 var mem = '0';
+var decJustPressed = false;
 
-function num(number) {
+function nums(number) {
 
 	if(needNewline == true) {
 		mem = numstring;
 		numstring = '';
 		needNewline = false;
+	}
+
+	if(decJustPressed == true && (number === '0' || number === '1' || number === '2' || 
+		number === '3' || number === '4' || number === '5' || number === '6' || number === '7' || 
+		number === '8' || number === '9')) {
+		decJustPressed = false;
+		temparr = numstring.split("");
+		if(temparr[temparr.length-1] == '0' && temparr[temparr.length-2] == '.')
+		temparr.splice(temparr.length-1, 1);
+
+		numstring = temparr.join("");
 	}
 
 	if(number == '1') {
@@ -43,6 +56,8 @@ function num(number) {
 	}
 	else if(number == 'dec') {
 		numstring = numstring + ".";
+		numstring = numstring + "0";
+		decJustPressed = true;
 	}
 	else if(number == 'ans') {
 		numstring = numstring + mem;
@@ -51,8 +66,8 @@ function num(number) {
 	else {
 		numstring = "Error"
 	}
-
-	//Checks that the 
+/*
+	//Adds commas to numbers
 	for (let i=numstring.length-1; i>=0; i++) {
 		let temparr
 		if(numstring[i] == '+' || numstring[i] == '-' || numstring[i] == '*' || numstring[i] == '/') {
@@ -67,7 +82,84 @@ function num(number) {
 			}
 		}
 	}
+*/
 
 	document.getElementById("mathtxt").innerHTML = numstring;
 
 }
+
+function ops(optype) {
+
+	if(optype=='add') {
+		numstring = numstring + '+'
+	}
+	if(optype=='div') {
+		numstring = numstring + '/'
+	}
+	if(optype=='mul') {
+		numstring = numstring + '*'
+	}
+	if(optype=='sub') {
+		numstring = numstring + '-'
+	}
+	if(optype=='neg') {
+		let tempbool = false
+		let temparr = numstring.split("");
+		for(let i=temparr.length-1; i >= 0; i--) {
+			if(temparr[i]=='+' || temparr[i]=='-' || temparr[i]=='*' || temparr[i]=='/') {
+				temparr.splice(i+1, 0, '(');
+				temparr.splice(i+2, 0, '-');
+				temparr.push(')');
+				tempbool = true;
+				break;
+			}
+
+		}
+		if(tempbool == false) {
+				temparr.splice(0, 0, '-');
+				temparr.splice(0, 0, '(');
+				temparr.push(')');
+				tempbool = false;
+		}
+		numstring = temparr.join("");
+	}
+	if(optype=='per') {
+		let tempbool = false;
+		let temparr = numstring.split("");
+		for(let i=temparr.length-1; i >= 0; i--) {
+			if(temparr[i]=='+' || temparr[i]=='-' || temparr[i]=='*' || temparr[i]=='/' || temparr[i]=='(') {
+				temparr.splice(i+1, 0, '0');
+				temparr.splice(i+2, 0, '.');
+				tempbool = true;
+				break;
+			}
+		}
+
+		if(tempbool == false) {
+				temparr.splice(0, 0, '.');
+				temparr.splice(0, 0, '0');
+				tempbool = false;
+		}
+
+		numstring = temparr.join("");
+	}
+
+	document.getElementById("mathtxt").innerHTML = numstring;
+
+}
+
+
+function evaluate(evaltype) {
+
+	try {
+		if(evaltype == 'enter') {
+			evalnumber = eval(numstring);
+		}
+	}
+	catch(err) {
+		numstring = "Error"
+	}
+
+
+}
+
