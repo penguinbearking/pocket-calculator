@@ -163,3 +163,9 @@ function evaluate(evaltype) {
 
 }
 
+function addCommasToNumber(num) {
+    let temparr = num.toString().split(".");
+    temparr[0] = temparr[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return temparr.join(".");
+}
+
