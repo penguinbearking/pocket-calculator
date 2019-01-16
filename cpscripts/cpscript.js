@@ -241,7 +241,9 @@ function ops(optype) {
 		//document.getElementById("mathtxt").innerHTML = getLastNum(addCommas(numstring));
 		displayNum = addCommas(getLastNum(numstring));
 		document.getElementById("mathtxt").innerHTML = displayNum;
-		displaynum = ''
+		if(optype=='add' || optype=='sub' || optype=='div' || optype=='mul') {
+			displayNum = '';
+		}
 }
 
 
