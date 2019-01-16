@@ -241,6 +241,7 @@ function ops(optype) {
 		//document.getElementById("mathtxt").innerHTML = getLastNum(addCommas(numstring));
 		displayNum = addCommas(getLastNum(numstring));
 		document.getElementById("mathtxt").innerHTML = displayNum;
+		displaynum = ''
 }
 
 
@@ -259,6 +260,7 @@ function solve(type) {
 		}
 
 		try {
+			console.log(numstring);
 			evalnumber = eval(numstring);
 			//evalnumber = evalnumber.toFixed(4).replace(/0{0,2}$/, "");
 			displayNum = evalnumber.toString();
@@ -266,7 +268,7 @@ function solve(type) {
 			if(addCommas(displayNum).length <= (txtboxwidth*1.45)/(txtsize)) {
 				let numsciarr = displayNum.split("e");
 				for(let i=0; i<=addCommas(displayNum).length - ((txtboxwidth*1.45)/(txtsize) - 1); i++) {
-					numsciarr[0].pop()
+					numsciarr[0] = numsciarr[0].slice(numsciarr[0].length-2);
 				}
 				numstring = numsciarr.join("e")
 			}
@@ -370,6 +372,11 @@ function getLastNum(expression) {
 		}
 		
 	}
+
+	if(expression[0] == "-") {
+		outstr = '-' + tempstr;
+	}
+
 		outstr = tempstr;
 		return outstr;
 }
