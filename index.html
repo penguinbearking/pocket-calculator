@@ -8,15 +8,32 @@
 		<script type= 'text/javascript' src='./cpscripts/cpscript.js'></script>
 	</head>
 
-	<body>
-		<div id='header'>
-			<h1 id='header-text'>Online Calculator</h1>
+	<body  onresize="resized();" onload='startup();' onkeypress='keypress();'>
+		<div id='showauthorinfo'>
+			<div id='authinfo'>
+				<span id='vcenterspan0'>
+					<h4 class='infotxt'>Sameer Narendran</h4>
+					<h4 class='infotxt'>AP Computer Science Principles</h4>
+					<h4 class='infotxt'>Period A 3/4</h4>
+				</span>
+			</div>
+			<div onclick='opencloseauthinfo();' id='closeauthinfo'>				
+					<p id='openclosearrows'><<</p>
+			</div>
 		</div>
+
+		<div id='header'>
+			<span id='vcenterspan2'>
+				<h1 id='header-text'>Online Calculator</h1>
+			</span>
+		</div>
+		<div
+
 
 
 		<div id='calcmain'>
 			<div id='viewbar'>
-				<p id='mathtxt'>0</p>
+				<p contenteditable="false" id='mathtxt'>0</p>
 			</div>
 			<div id='calctable'>
 				<table>
@@ -46,13 +63,13 @@
 						<td><button class='buttont1' onclick='ops("add")';>+</button></td>
 					</tr>
 					<tr>
-						<td colspan='2'><button class='buttont2' onclick='evaluate("enter");'>=</button></td>
+						<td colspan='2'><button class='buttont2' onclick='solve("enter");'>=</button></td>
 						<td><button class='buttont2'onclick='nums("ans");'>Ans</button></td>
 						<td><button class='buttont1' onclick='ops("neg")';>+/-</button></td>
 					</tr>
 					<tr>
-						<td colspan='2'><button class='buttont2' id='link-to-full'><a href='./GraphingCalculator/graphcalculator.html'>Full Calculator</a></button></td>
-						<td colspan='1'><button class='buttont2' onclick='evaluate("clear")';>Clear</button></td>
+						<td colspan='2'><button class='buttont2' id='link-to-full' onclick='goToFull();'>Full Calculator</button></td>
+						<td colspan='1'><button class='buttont2' onclick='solve("clear")';>Clear</button></td>
 						<td><button class='buttont1' onclick='ops("per")';>%</button></td>
 					</tr>
 
