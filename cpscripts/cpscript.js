@@ -1,9 +1,9 @@
 // TEXT BOX ON CALC CAN ONLY HOLD 10 CHARACTERS WHEN TEXT IS 50PX and BOX IS 300PX WIDE //
 
 // THINGS TO STILL ACCOMPLISH FOR REQUIREMENTS
-// - change final answer to fit inside box
-// - change decimal point to not effect both values
-// - change header font size to match window size
+// - change final answer to fit inside box (done - but needs extensive testing)
+// - change decimal point to not effect both values (done)
+// - change header font size to match window size (done)
 // - 
 
 /*
@@ -28,6 +28,7 @@ var txtsize;
 var authinfoopen = true;
 var displayNum = '';
 var shiftdown = false;
+var negPressed = false;
 
 function startup() {
 
@@ -51,7 +52,8 @@ function resized() {
 	// }
 	// else if(windowW < 885){
 	// 	document.getElementById("header-text").style.fontSize = "initial";
-	// }	
+	// }
+
 }
 
 function nums(number) {
@@ -140,8 +142,12 @@ function nums(number) {
 			console.log("4:" + number);
 		}
 
-		
-			displayNum = addCommas(getLastNum(numstring));
+			if(negPressed == true) {
+				displayNum = '-' + addCommas(getLastNum(numstring));
+			}
+			else if(negPressed == false) {
+				displayNum = addCommas(getLastNum(numstring));
+			}
 			//document.getElementById("mathtxt").innerHTML = getLastNum(addCommas(numstring));
 			document.getElementById("mathtxt").innerHTML = displayNum;
 	}
@@ -162,23 +168,33 @@ function ops(optype) {
 	}
 
 	if(optype=='add') {
+		negPressed = false;
 		numstring = numstring + '+'
 		changeOpsButtonStyle("buttont1", 3);
 	}
 	else if(optype=='div') {
+		negPressed = false;
 		numstring = numstring + '/'
 		changeOpsButtonStyle("buttont1", 0);
 	}
 	else if(optype=='mul') {
+		negPressed = false;
 		numstring = numstring + '*'
 		changeOpsButtonStyle("buttont1", 1);
 	}
 	else if(optype=='sub') {
+		negPressed = false;
 		numstring = numstring + '-'
 		changeOpsButtonStyle("buttont1", 2);
 	}
 	else if(optype=='neg') {
 		let tempbool = false
+		if(negPressed == false) {
+			negPressed = true;
+		}
+		else if(negPressed == true) {
+			negPressed = false;
+		}
 		let temparr = numstring.split("");
 		for(let i=temparr.length-1; i >= 0; i--) {
 			if(temparr[i] == '+') {
@@ -238,9 +254,17 @@ function ops(optype) {
 			console.log("4:" + optype);
 	}
 
-		//document.getElementById("mathtxt").innerHTML = getLastNum(addCommas(numstring));
-		displayNum = addCommas(getLastNum(numstring));
-		document.getElementById("mathtxt").innerHTML = displayNum;
+		
+		if(optype == 'neg' || optype == 'per') {
+			//document.getElementById("mathtxt").innerHTML = getLastNum(addCommas(numstring));
+			if(negPressed == true) {
+				displayNum = '-' + addCommas(getLastNum(numstring));
+			}
+			else if(negPressed == false) {
+				displayNum = addCommas(getLastNum(numstring));
+			}
+			document.getElementById("mathtxt").innerHTML = displayNum;
+		}
 		if(optype=='add' || optype=='sub' || optype=='div' || optype=='mul') {
 			displayNum = '';
 		}
@@ -267,13 +291,14 @@ function solve(type) {
 			//evalnumber = evalnumber.toFixed(4).replace(/0{0,2}$/, "");
 			displayNum = evalnumber.toString();
 			displayNum = toScientificNot(displayNum);
-			if(addCommas(displayNum).length <= (txtboxwidth*1.45)/(txtsize)) {
-				let numsciarr = displayNum.split("e");
-				for(let i=0; i<=addCommas(displayNum).length - ((txtboxwidth*1.45)/(txtsize) - 1); i++) {
-					numsciarr[0] = numsciarr[0].slice(numsciarr[0].length-2);
-				}
-				numstring = numsciarr.join("e")
-			}
+			displayNum = fitAnswer(displayNum);
+			// if(addCommas(displayNum).length <= (txtboxwidth*1.45)/(txtsize)) {
+			// 	let numsciarr = displayNum.split("e");
+			// 	for(let i=0; i<=addCommas(displayNum).length - ((txtboxwidth*1.45)/(txtsize) - 1); i++) {
+			// 		numsciarr[0] = numsciarr[0].slice(numsciarr[0].length-2);
+			// 	}
+			// 	numstring = numsciarr.join("e")
+			// }
 			
 			if(evalnumber == Infinity || evalnumber == undefined || evalnumber == 'Infinity' || evalnumber == 'undefined') {
 				displayNum = "Error";
@@ -296,11 +321,13 @@ function solve(type) {
 		}
 			numstring = "";
 			displayNum = "";
+			negPressed = false;
 	}
 	else if(type == 'clear') {
 		numstring="";
 		displayNum="";
 		mem = "";
+		negPressed = false;
 		document.getElementById("mathtxt").innerHTML = 0;
 		changeOpsButtonStyle("buttont1", -1);
 	}
@@ -356,7 +383,7 @@ function addCommas(expression) {
 function getLastNum(expression) {
 	let tempstr = '';
 	let outstr = '';
-	if(expression[expression.length-1] == '+' || expression[expression.length-1] == '-' || expression[expression.length-1] == '*' || expression[expression.length-1] == '/') {
+	if((expression[expression.length-1] == '+' || expression[expression.length-1] == '-' || expression[expression.length-1] == '*' || expression[expression.length-1] == '/') && expression[expression.length-1] != 'e') {
 		if(isNaN(Number(expression[expression.length-2])) == false) {
 			let temparr = [];
 			temparr = expression.split("");
@@ -366,7 +393,7 @@ function getLastNum(expression) {
 	}
 
 	for(let i=expression.length-1;i>=0;i--) {
-		if(isNaN(Number(expression[i])) == false || expression[i] == '.') {
+		if(isNaN(Number(expression[i])) == false || expression[i] == '.' || expression[i-1] == 'e' || expression[i] == 'e') {
 			tempstr = expression[i] + tempstr;
 		}
 		else {
@@ -384,28 +411,31 @@ function getLastNum(expression) {
 }
 
 function toScientificNot(expression) {
-	if(getLastNum(expression).length > 9) {
+	expressionarr = expression.split(".")
+
+	if(getLastNum(expressionarr[0]).length > 9) {
 
 		let temparr = [];
-		let lastnum = getLastNum(expression);
+		let lastnum = getLastNum(expressionarr[0]);
 		//console.log(lastnum);
 		lastnum = Number(lastnum);
 		let lastnumlen = lastnum.toString().length;
 		let tempvar = (lastnum/10**(lastnumlen-1));
 		let lastnumStr = tempvar.toString() + "e" + (lastnumlen-1);
 
-		temparr = expression.split("");
+		temparr = expressionarr[0].split("");
 		for(let i=0; i<=lastnumlen-1; i++) {
 			temparr.pop();
 		}
-		expression = temparr.join("");
+		expressionarr[0] = temparr.join("");
+		expression = expressionarr.join(".")
 		expression+=lastnumStr;
 
 		
 
 	}
 
-	return(expression);
+	return (expression);
 
 
 
@@ -483,7 +513,34 @@ function opencloseauthinfo() {
 
 }
 
-function fitAnswer() {
+function fitAnswer(expression) {
+	txtboxwidth = document.getElementById("mathtxt").offsetWidth;
+	txtsize = parseFloat(window.getComputedStyle(document.getElementById("mathtxt"), null).getPropertyValue('font-size'));
+
+	let temparr = expression.split("e");
+	let numdec = temparr[0];
+	let explen;
+	let numlenarr;
+	if(temparr[1] != undefined) {
+		explen = temparr[1].length;
+		numlenarr = numdec.split("");
+		for(let i=0; i<=(numlenarr.length) - ((txtboxwidth*1.45)/(txtsize) - (explen + 1) - 3); i++) {
+			numlenarr.pop();
+		}
+	}
+	else {
+		numlenarr = numdec.split("");
+		for(let i=0; i<=(numlenarr.length) - ((txtboxwidth*1.45)/(txtsize) - 3); i++) {
+			numlenarr.pop();
+		}
+	}
+	numdec = numlenarr.join("");
+	temparr[0] = numdec;
+	expression = temparr.join("e");
+
+	return expression;
+
+
 
 }
 
