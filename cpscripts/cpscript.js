@@ -4,7 +4,8 @@
 // - change final answer to fit inside box (done - but needs extensive testing)
 // - change decimal point to not effect both values (done)
 // - change header font size to match window size (done)
-// - 
+// - change solve not to show 1 when it is pressed with only 1 number in numstring
+// - change scientific form not to show exponent with decimal places
 
 /*
 
@@ -132,7 +133,7 @@ function nums(number) {
 				numstring = numstring + mem;
 			}
 			else {
-				numstring = "Error"
+				displayNum = "Error"
 				console.log("3:" + mem);
 			}
 		}
@@ -299,6 +300,16 @@ function solve(type) {
 			// 	}
 			// 	numstring = numsciarr.join("e")
 			// }
+
+			tempdisplayarr = displayNum.split(".")
+			if(displayNum.includes("e")) {
+				if(tempdisplayarr.length == 3) {
+					displayNum = tempdisplayarr[0] + "." + tempdisplayarr[1]
+				}
+				// else if(tempdisplayarr.length == 2) {
+				// 	displayNum = tempdisplayarr[0]
+				// }
+			}
 			
 			if(evalnumber == Infinity || evalnumber == undefined || evalnumber == 'Infinity' || evalnumber == 'undefined') {
 				displayNum = "Error";
@@ -333,7 +344,7 @@ function solve(type) {
 	}
 
 	else {
-			numstring = "Error"
+			displayNum = "Error"
 			console.log("4:" + type);
 	}
 	
@@ -383,6 +394,7 @@ function addCommas(expression) {
 function getLastNum(expression) {
 	let tempstr = '';
 	let outstr = '';
+	expression = expression.replace(/,/g, "");
 	if((expression[expression.length-1] == '+' || expression[expression.length-1] == '-' || expression[expression.length-1] == '*' || expression[expression.length-1] == '/') && expression[expression.length-1] != 'e') {
 		if(isNaN(Number(expression[expression.length-2])) == false) {
 			let temparr = [];
