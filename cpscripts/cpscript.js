@@ -129,7 +129,7 @@ function nums(number) {
 			}
 		}
 		else if(number == 'ans') {
-			if(isNaN(Number(mem))) {
+			if(isNaN(Number(mem)) == false) {
 				numstring = numstring + mem;
 			}
 			else {
@@ -311,7 +311,7 @@ function solve(type) {
 				// }
 			}
 			
-			if(evalnumber == Infinity || evalnumber == undefined || evalnumber == NaN || evalnumber == 'Infinity' || evalnumber == 'undefined' || evalnumber == "NaN") {
+			if(evalnumber == Infinity || evalnumber == undefined || evalnumber == NaN || evalnumber == 'Infinity' || evalnumber == 'undefined' || evalnumber == "NaN" || isNaN(evalnumber) == true) {
 				displayNum = "Error";
 				console.log("1:" + evalnumber);
 				showerror = true;
@@ -326,6 +326,7 @@ function solve(type) {
 		displayNum = addCommas(displayNum);
 		document.getElementById("mathtxt").innerHTML = displayNum;
 		changeOpsButtonStyle("buttont1", -1);
+		console.log("displayNum: " + displayNum + " Numstring: " + numstring);
 		
 		if(showerror == false) {
 			mem=displayNum;
@@ -351,6 +352,8 @@ function solve(type) {
 }
 
 function addCommas(expression) {
+	expression = removeCommas(expression);
+
 	let zerocounter = 0;
 	let temparr11 = expression.split("e");
 	let originalExpression = expression;
@@ -592,8 +595,9 @@ function fitAnswer(expression) {
 
 		}
 		else {
-			for(let i=temparr.length-8; i>=0; i--) {			
-					temparr.pop();
+			decPassed = false;
+			for(let i=temparr.length-10; i>=0; i--) {		
+				temparr.pop();
 			}
 			expression = temparr.join("");
 
@@ -617,7 +621,7 @@ function removeCommas(expression) {
 
 function keypress() {
  	var key = event.keyCode;
- 	console.log(key);
+ 	//console.log(key);
 
  	if(key == 49) {
  		nums('1');
