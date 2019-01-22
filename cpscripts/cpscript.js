@@ -74,7 +74,7 @@ function nums(number) {
 
 	
 	//if(displayNum.length <= (txtboxwidth*1.45)/(txtsize) || decJustPressed == true) {
-	if(displayNum.length <= 9 || decJustPressed == true) {
+	if(removeCommas(displayNum).length < 9 || decJustPressed == true) {
 
 		if(decJustPressed == true && (number === '1' || number === '2' || 
 			number === '3' || number === '4' || number === '5' || number === '6' || number === '7' || 
@@ -352,6 +352,9 @@ function solve(type) {
 
 function addCommas(expression) {
 	let zerocounter = 0;
+	let temparr11 = expression.split("e");
+	let originalExpression = expression;
+	expression = temparr11[0];
 
 	for(let n = getLastNum(expression).length-1; n>=0; n--) {
 		if(getLastNum(expression).includes(".")) {
@@ -385,7 +388,12 @@ function addCommas(expression) {
 	if(tempstr != '') {
 		outputstr += Number(tempstr).toLocaleString(undefined, { maximumFractionDigits: 20, minimumFractionDigits: zerocounter });
 	}
-	
+
+	if(temparr11.length == 2) {
+		outputstr = outputstr + "e" + temparr11[1];
+	}
+
+	 
 	return outputstr;
 
 }
@@ -552,12 +560,15 @@ function fitAnswer(expression) {
 
 	// return expression;
 
+	let temparr = expression.split(",");
+	expression = temparr.join("");
+	temparr = expression.split("");
+
 	if(expression.length>=9) {
+		
+
 		if(expression.includes("e")) {
-			let temparr = expression.split(",");
-			expression = temparr.join("");
-			temparr = expression.split("");
-			for(let i=temparr.length-1; i>=0; i++) {
+			for(let i=temparr.length-1; i>=0; i--) {
 				if(temparr[i] == '0') {
 					temparr.pop();
 				}
@@ -565,27 +576,44 @@ function fitAnswer(expression) {
 					break;
 				}
 			}
-			temparr = expression.split
-
-		}
-		else {
-			let temparr = expression.split(",");
 			expression = temparr.join("");
-			temparr = expression.split("");
-			for(let i=temparr.length-8; i>=0; i++) {
-				if(temparr[i] == '0') {
-					temparr.pop();
+
+			if(temparr.length>=9) {
+				temparr = expression.split("e");
+				let temparr2 = temparr[0].split("");
+				for(let j=temparr2.length-1;j>=0;j--) {
+					if(temparr2.length>=9) {
+						temparr2.pop();
+					}
 				}
+				temparr[0] = temparr2.join("");
+				expression = temparr.join("e");
 			}
 
 		}
+		else {
+			for(let i=temparr.length-8; i>=0; i--) {			
+					temparr.pop();
+			}
+			expression = temparr.join("");
+
+		}
 	}
+	
 
 	return addCommas(expression)
 
 
 
 }
+
+
+function removeCommas(expression) {
+	let temparr = expression.split(",");
+	expression = temparr.join("");
+	return expression;
+}
+
 
 function keypress() {
  	var key = event.keyCode;
