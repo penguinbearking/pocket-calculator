@@ -73,8 +73,8 @@ function nums(number) {
 
 
 	
-	if(displayNum.length <= (txtboxwidth*1.45)/(txtsize) || decJustPressed == true) {
-
+	//if(displayNum.length <= (txtboxwidth*1.45)/(txtsize) || decJustPressed == true) {
+	if(displayNum.length <= 9 || decJustPressed == true) {
 
 		if(decJustPressed == true && (number === '1' || number === '2' || 
 			number === '3' || number === '4' || number === '5' || number === '6' || number === '7' || 
@@ -311,7 +311,7 @@ function solve(type) {
 				// }
 			}
 			
-			if(evalnumber == Infinity || evalnumber == undefined || evalnumber == 'Infinity' || evalnumber == 'undefined') {
+			if(evalnumber == Infinity || evalnumber == undefined || evalnumber == NaN || evalnumber == 'Infinity' || evalnumber == 'undefined' || evalnumber == "NaN") {
 				displayNum = "Error";
 				console.log("1:" + evalnumber);
 				showerror = true;
@@ -526,31 +526,62 @@ function opencloseauthinfo() {
 }
 
 function fitAnswer(expression) {
-	txtboxwidth = document.getElementById("mathtxt").offsetWidth;
-	txtsize = parseFloat(window.getComputedStyle(document.getElementById("mathtxt"), null).getPropertyValue('font-size'));
+	// txtboxwidth = document.getElementById("mathtxt").offsetWidth;
+	// txtsize = parseFloat(window.getComputedStyle(document.getElementById("mathtxt"), null).getPropertyValue('font-size'));
 
-	let temparr = expression.split("e");
-	let numdec = temparr[0];
-	let explen;
-	let numlenarr;
-	if(temparr[1] != undefined) {
-		explen = temparr[1].length;
-		numlenarr = numdec.split("");
-		for(let i=0; i<=(numlenarr.length) - ((txtboxwidth*1.45)/(txtsize) - (explen + 1) - 3); i++) {
-			numlenarr.pop();
+	// let temparr = expression.split("e");
+	// let numdec = temparr[0];
+	// let explen;
+	// let numlenarr;
+	// if(temparr[1] != undefined) {
+	// 	explen = temparr[1].length;
+	// 	numlenarr = numdec.split("");
+	// 	for(let i=0; i<=(numlenarr.length) - ((txtboxwidth*1.45)/(txtsize) - (explen + 1) - 3); i++) {
+	// 		numlenarr.pop();
+	// 	}
+	// }
+	// else {
+	// 	numlenarr = numdec.split("");
+	// 	for(let i=0; i<=(numlenarr.length) - ((txtboxwidth*1.45)/(txtsize) - 3); i++) {
+	// 		numlenarr.pop();
+	// 	}
+	// }
+	// numdec = numlenarr.join("");
+	// temparr[0] = numdec;
+	// expression = temparr.join("e");
+
+	// return expression;
+
+	if(expression.length>=9) {
+		if(expression.includes("e")) {
+			let temparr = expression.split(",");
+			expression = temparr.join("");
+			temparr = expression.split("");
+			for(let i=temparr.length-1; i>=0; i++) {
+				if(temparr[i] == '0') {
+					temparr.pop();
+				}
+				else{
+					break;
+				}
+			}
+			temparr = expression.split
+
+		}
+		else {
+			let temparr = expression.split(",");
+			expression = temparr.join("");
+			temparr = expression.split("");
+			for(let i=temparr.length-8; i>=0; i++) {
+				if(temparr[i] == '0') {
+					temparr.pop();
+				}
+			}
+
 		}
 	}
-	else {
-		numlenarr = numdec.split("");
-		for(let i=0; i<=(numlenarr.length) - ((txtboxwidth*1.45)/(txtsize) - 3); i++) {
-			numlenarr.pop();
-		}
-	}
-	numdec = numlenarr.join("");
-	temparr[0] = numdec;
-	expression = temparr.join("e");
 
-	return expression;
+	return addCommas(expression)
 
 
 
