@@ -4,8 +4,8 @@
 // - change final answer to fit inside box (done - but needs extensive testing)
 // - change decimal point to not effect both values (done)
 // - change header font size to match window size (done)
-// - change solve not to show 1 when it is pressed with only 1 number in numstring
-// - change scientific form not to show exponent with decimal places
+// - change solve not to show 1 when it is pressed with only 1 number in numstring (possibly done . . . not encountering error anymore)
+// - change scientific form not to show exponent with decimal places (done - but needs testing)
 
 /*
 
@@ -436,20 +436,20 @@ function toScientificNot(expression) {
 	if(getLastNum(expressionarr[0]).length > 9) {
 
 		let temparr = [];
-		let lastnum = getLastNum(expressionarr[0]);
+		let lastnum = getLastNum(expression);
 		//console.log(lastnum);
 		lastnum = Number(lastnum);
-		let lastnumlen = lastnum.toString().length;
+		let lastnumlen = getLastNum(expressionarr[0]).toString().length;
 		let tempvar = (lastnum/10**(lastnumlen-1));
 		let lastnumStr = tempvar.toString() + "e" + (lastnumlen-1);
 
-		temparr = expressionarr[0].split("");
-		for(let i=0; i<=lastnumlen-1; i++) {
-			temparr.pop();
-		}
-		expressionarr[0] = temparr.join("");
-		expression = expressionarr.join(".")
-		expression+=lastnumStr;
+		// temparr = expressionarr[0].split("");
+		// for(let i=0; i<=lastnumlen-1; i++) {
+		// 	temparr.pop();
+		// }
+		//expressionarr[0] = temparr.join("");
+		//expression = expressionarr.join(".")
+		expression = lastnumStr;
 
 		
 
@@ -564,7 +564,7 @@ function fitAnswer(expression) {
 	expression = temparr.join("");
 	temparr = expression.split("");
 
-	if(expression.length>=9) {
+	if(expression.length>9) {
 		
 
 		if(expression.includes("e")) {
