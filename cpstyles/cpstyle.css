@@ -257,3 +257,8 @@ a {
 #link-to-full {
     cursor: default;
 }
+
+
+.second2 {
+    display: none;
+}

@@ -27,9 +27,10 @@ var decJustPressed = false;
 var txtboxwidth;
 var txtsize;
 var authinfoopen = true;
-var displayNum = '';
+var displayNum = '0';
 var shiftdown = false;
 var negPressed = false;
+var ifsecond = false;
 
 function startup() {
 
@@ -676,3 +677,34 @@ function keypress() {
  	}
  }
 
+
+ function getFirstNum(expression) {
+	let tempstr = '';
+	let outstr = '';
+	expression = expression.replace(/,/g, "");
+	if((expression[0] == '+' || expression[0] == '-' || expression[0] == '*' || expression[0] == '/') && expression[0] != 'e') {
+		if(isNaN(Number(expression[1])) == false) {
+			let temparr = [];
+			temparr = expression.split("");
+			temparr.shift();
+			expression = temparr.join("");
+		}
+	}
+
+	for(let i=0;i<=expression.length-1;i++) {
+		if(isNaN(Number(expression[i])) == false || expression[i] == '.' || expression[i+1] == 'e' || expression[i] == 'e') {
+			tempstr = tempstr +  expression[i];
+		}
+		else {
+			break;
+		}
+		
+	}
+
+	if(expression[0] == "-") {
+		outstr = '-' + tempstr;
+	}
+
+		outstr = tempstr;
+		return outstr;
+}
