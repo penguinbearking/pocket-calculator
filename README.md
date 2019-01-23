@@ -1,1 +1,1 @@
-# pocket-calculator
+# Pocket Calculator
